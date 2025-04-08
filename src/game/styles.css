@@ -1,0 +1,80 @@
+
+/* StartSelect styles */
+.container-ss {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.button-ss {
+    background-color: #A7A7A7;
+    width: 10px;
+    height: 40px;
+    border-radius: 25px;
+    transform: skewX(-50deg);
+}
+
+.container-text-ss {
+    width: 90px;
+    height: 20px;
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.text-ss {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:medium;
+    color: #222052;
+}
+
+/* Pad styles */
+.container-dpad {
+    width: 90px;
+    height: 90px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1px;
+    border-radius: 100%;
+}
+
+.button-dpad {
+    background-color: #08070D;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 10%;
+}
+
+.button-dpad-empty {
+    width: 30px;
+    height: 30px;
+}
+
+/* Actions styles */
+.container-ab {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.button-ab {
+    background-color: #8F1D2F;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}

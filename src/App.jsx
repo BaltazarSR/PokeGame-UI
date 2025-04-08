@@ -1,77 +1,59 @@
 import './App.css'
+import { Screen } from './game/Screen'
+import { Pad } from './game/buttons/Pad'
+import { StartSelect } from './game/buttons/StartSelect'
+import { Actions } from './game/buttons/Actions'
+import { useEffect, useState } from 'react'
 
 function App() {
 
+  const [pokemones, setPokemones] = useState([]);
+  
+  const BASE_URL = "https://pokeapi.co/api/v2/";
+
+  const getPokemones = async() => {
+    const res = await fetch(BASE_URL + 'pokemon?limit=151');
+    const data = await res.json();
+    const pokemonDetails = await getDetails(data.results);
+    console.log(pokemonDetails);
+    setPokemones(pokemonDetails);
+  }
+
+  const getDetails = async (results) => {
+    const res = await Promise.all(results.map((result) => fetch(result.url)));
+    const data = await Promise.all(res.map(gato => gato.json()) );
+    return data;
+}
+
+  useEffect(() => {
+    getPokemones();
+  }, [])
+
+
+  const handlePress = (dir) => {
+    console.log(dir)
+  }
+
   return (
     <>
-      <div class = "container-main">
+      <div className = "container-main">
         {/* Shadow */}
-        <div class = "shadow">
+        <div className = "shadow">
           {/* Container top */}
-          <div class = "container-top"></div>
+          <div className = "container-top"></div>
           {/* Container game */}
-          <div class = "container-gameboy">
+          <div className = "container-gameboy">
             {/* Container screen */}
-            <div class = "container-screen-center">
-              <div class = "container-screen">
-                {/* Container top screen */}
-                <div class = "container-screen-title">
-                  <div class = "container-dash-title1"></div>
-                  <div class = "container-dash-title2"></div>
-                </div>
-                {/* Container display */}
-                <div class = "container-display"></div>
-              </div>
-              {/* Container Nintendo */}
-              <div class = "container-name">
-              Nintendo GAMEBOY
-              </div>
-            </div>
+            <Screen pokemones = {pokemones} />
             {/* Container buttons */}
-            <div class = "container-buttons-center">
-              <div class = "container-buttons">
+            <div className = "container-buttons-center">
+              <div className = "container-buttons">
                 {/* D-PAD */}
-                <div class = "container-dpad">
-                  <div class = "button-dpad-empty"></div>
-                  <div>
-                    <button class = "button-dpad"></button>
-                  </div>
-                  <div class = "button-dpad-empty"></div>
-                  <div>
-                    <button class = "button-dpad"></button>
-                  </div>
-                  <div>
-                    <button class = "button-dpad"></button>
-                  </div>
-                  <div>
-                    <button class = "button-dpad"></button>
-                  </div>
-                  <div class = "button-dpad-empty"></div>
-                  <div>
-                    <button class = "button-dpad"></button>
-                  </div>
-                  <div class = "button-dpad-empty"></div>
-                </div>
+                <Pad handlePress = {handlePress} />
                 {/* SELECT START */}
-                <div style={{ paddingTop: '30%'}}>
-                  <div class = "container-ss">
-                    <button class = "button-ss"></button>
-                    <button class = "button-ss"></button>
-                  </div>
-                  <div class = "container-text-ss">
-                    <div class = "text-ss">SELECT</div>
-                    <div class = "text-ss">START</div>
-                  </div>
-                </div>
+                < StartSelect />
                 {/* A B */}
-                <div class = "container-ab">
-                  <div style={{ paddingTop: '30%'}}>
-                    <button class = "button-ab"></button>
-                  </div>
-                  <div style={{ paddingBottom: '30%'}}>
-                    <button class = "button-ab"></button>
-                  </div>
-                </div>
+                < Actions />
               </div>
             </div>
           </div>
