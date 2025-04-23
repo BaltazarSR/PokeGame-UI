@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Screen = ({pokemones, hoverPokemon, selectedPokemones, health, turn, mainMenu}) => {
+export const Screen = ({pokemones, hoverPokemon, selectedPokemones, health, turn, mainMenu, attack}) => {
 
   const getHealthColor = (percent) => {
     if (percent > 50) return "#7ACDA8";
@@ -82,6 +82,9 @@ export const Screen = ({pokemones, hoverPokemon, selectedPokemones, health, turn
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className='attack-text'>
+                    {attack}
                   </div>
                 </div>
               )}

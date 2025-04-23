@@ -12,6 +12,7 @@ function App() {
   const [selectedPokemones, setSelectedPokemones] = useState([]);
   const [health, setHealth] = useState([]);
   const [turn, setTurn] = useState(0);
+  const [attack, setAttack] = useState();
 
   const BASE_URL = "https://pokeapi.co/api/v2/";
 
@@ -80,11 +81,20 @@ function App() {
       setHealth([health[0]-randomDamage, health[1], health[2], health[3]]);
       setTurn(0);
     }
+    const attackMessage = turn == 0 ? selectedPokemones[0][0].name : selectedPokemones[1][0].name;
+
+    setAttack(attackMessage + " used " + chooseAttack());
+  }
+
+  const chooseAttack = () => {
+    const randomAttack = Math.floor(Math.random() * selectedPokemones[turn][0].moves.length);
+    return selectedPokemones[turn][0].moves[randomAttack].move.name;
   }
 
   const mainMenu = () => {
     setSelectedPokemones([]);
-    setTurn(0)
+    setTurn(0);
+    setAttack();
   }
 
   return (
@@ -97,7 +107,7 @@ function App() {
           {/* Container game */}
           <div className = "container-gameboy">
             {/* Container screen */}
-            <Screen pokemones = {pokemones} hoverPokemon = {hoverPokemon} selectedPokemones = {selectedPokemones} health = {health} turn = {turn} mainMenu = {mainMenu}/>
+            <Screen pokemones = {pokemones} hoverPokemon = {hoverPokemon} selectedPokemones = {selectedPokemones} health = {health} turn = {turn} mainMenu = {mainMenu} attack = {attack}/>
             {/* Container buttons */}
             <div className = "container-buttons-center">
               <div className = "container-buttons">
