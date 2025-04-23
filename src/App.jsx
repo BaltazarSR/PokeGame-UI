@@ -8,14 +8,18 @@ import { useEffect, useState } from 'react'
 function App() {
 
   const [pokemones, setPokemones] = useState([]);
-  
+  const [hoverPokemon, setHoverPokemon] = useState(0);
+  const [selectedPokemones, setSelectedPokemones] = useState([]);
+  const [health, setHealth] = useState([]);
+  const [turn, setTurn] = useState(0);
+
   const BASE_URL = "https://pokeapi.co/api/v2/";
 
   const getPokemones = async() => {
     const res = await fetch(BASE_URL + 'pokemon?limit=151');
     const data = await res.json();
     const pokemonDetails = await getDetails(data.results);
-    console.log(pokemonDetails);
+    // console.log(pokemonDetails);
     setPokemones(pokemonDetails);
   }
 
@@ -31,7 +35,56 @@ function App() {
 
 
   const handlePress = (dir) => {
-    console.log(dir)
+    // console.log(dir);
+    let newHover = hoverPokemon;
+  
+    if (dir === 'right') {
+      newHover += 1;
+    }
+    if (dir === 'left') {
+      newHover -= 1;
+    }
+    if (dir === 'up') {
+      newHover -= 3;
+    }
+    if (dir === 'down') {
+      newHover += 3;
+    }
+  
+    if (newHover >= 1) {
+      setHoverPokemon(newHover);
+    }
+  };
+
+  const handleSelectPokemon = () => {
+    const pokemonSelected = pokemones.filter((pokemon) => pokemon.id === hoverPokemon);
+
+    const selections = [pokemonSelected, computerSelection()];
+    setSelectedPokemones(selections);
+    setHealth([selections[0][0].stats[0].base_stat, selections[0][0].stats[0].base_stat, selections[1][0].stats[0].base_stat, selections[1][0].stats[0].base_stat]);
+  };
+
+  const computerSelection = () => {
+    const randomID = Math.floor(Math.random() * pokemones.length);
+    const selectElement = pokemones.filter((pokemon) => pokemon.id == randomID );
+    return selectElement;
+  }
+
+  const attackTurn = () => {
+    const randomDamage = Math.floor(Math.random() * 40);
+    // console.log(randomDamage)
+    if (turn == 0) {
+      setHealth([health[0], health[1], health[2]-randomDamage, health[3]]);
+      setTurn(1);
+    } else {
+      setHealth([health[0]-randomDamage, health[1], health[2], health[3]]);
+      setTurn(0);
+    }
+  }
+
+  const mainMenu = () => {
+    setSelectedPokemones([]);
+    setTurn(0)
   }
 
   return (
@@ -44,16 +97,16 @@ function App() {
           {/* Container game */}
           <div className = "container-gameboy">
             {/* Container screen */}
-            <Screen pokemones = {pokemones} />
+            <Screen pokemones = {pokemones} hoverPokemon = {hoverPokemon} selectedPokemones = {selectedPokemones} health = {health} turn = {turn} mainMenu = {mainMenu}/>
             {/* Container buttons */}
             <div className = "container-buttons-center">
               <div className = "container-buttons">
                 {/* D-PAD */}
                 <Pad handlePress = {handlePress} />
                 {/* SELECT START */}
-                < StartSelect />
+                < StartSelect handleSelectPokemon={handleSelectPokemon}/>
                 {/* A B */}
-                < Actions />
+                < Actions attackTurn={attackTurn}/>
               </div>
             </div>
           </div>
